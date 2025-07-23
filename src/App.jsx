@@ -17,9 +17,28 @@ function App() {
   });
 
   // Funzione chiamata quando l'utente invia il form
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Dati inviati:", formData);
+
+    try {
+      // Invia i dati del form tramite POST all'API
+      const response = await fetch(
+        "https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts",
+        {
+          method: "POST", // Metodo HTTP POST
+          headers: { "Content-Type": "application/json" }, // Indichiamo che i dati sono in formato JSON
+          body: JSON.stringify(formData), // Convertiamo l'oggetto in stringa JSON
+        }
+      );
+      // Convertiamo la risposta dell'API in formato JSON
+      const data = await response.json();
+      // Stampiamo la risposta dell'API (conferma che l'invio è riuscito)
+      console.log("✅ Risposta del server:", data);
+    } catch (error) {
+      // Se qualcosa va storto, lo stampiamo in console
+      console.error("❌ Errore durante l'invio dei dati:", error);
+    }
   };
 
   return (
